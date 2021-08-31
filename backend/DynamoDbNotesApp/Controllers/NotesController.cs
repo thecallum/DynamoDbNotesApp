@@ -43,7 +43,11 @@ namespace DynamoDbNotesApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _getByIdUseCase.Execute(id).ConfigureAwait(false);
+
+            if (result == null) return NotFound(id);
+
+            return Ok(result);
         }
 
         [HttpGet]
@@ -51,7 +55,9 @@ namespace DynamoDbNotesApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
-            throw new NotImplementedException();
+            var result = await _getAllUseCase.Execute().ConfigureAwait(false);
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -60,7 +66,11 @@ namespace DynamoDbNotesApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateNote([FromBody] CreateNoteRequest request)
         {
-            throw new NotImplementedException();
+            var result = await _createNoteUseCase.Execute(request).ConfigureAwait(false);
+
+            var createdLocation = $"/api/notes/{result.Id}";
+
+            return Created(createdLocation, result);
         }
 
         [HttpPatch]
@@ -71,7 +81,11 @@ namespace DynamoDbNotesApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateNote([FromRoute] Guid id, [FromBody] UpdateNoteRequest request)
         {
-            throw new NotImplementedException();
+            var result = await _udateNoteUseCase.Execute(id, request).ConfigureAwait(false);
+
+            if (result == false) return NotFound();
+
+            return NoContentResponse();
         }
 
         [HttpDelete]
@@ -82,7 +96,16 @@ namespace DynamoDbNotesApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteNote([FromRoute] Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _deleteNoteUseCase.Execute(id).ConfigureAwait(false);
+
+            if (result == false) return NotFound();
+
+            return NoContentResponse();
+        }
+
+        private IActionResult NoContentResponse()
+        {
+            return null;
         }
     }
 }

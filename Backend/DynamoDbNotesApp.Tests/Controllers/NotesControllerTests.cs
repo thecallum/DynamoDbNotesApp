@@ -50,6 +50,9 @@ namespace DynamoDbNotesApp.Tests.Controllers
             // Generate random guid
             var randomId = _fixture.Create<Guid>();
 
+            // setup usecase
+            _mockGetByIdUseCase.Setup(x => x.Execute(randomId)).ReturnsAsync((NoteResponseObject) null);
+
             // call controller method
             var response = await _notesController.GetById(randomId);
 
@@ -118,19 +121,6 @@ namespace DynamoDbNotesApp.Tests.Controllers
         }
 
         [Fact]
-        public async Task CreateNote_WhenInvalidRequest_ReturnsBadRequest()
-        {
-            // create invalid note (null)
-            var invalidRequest = (CreateNoteRequest) null;
-
-            // call controller method
-            var response = await _notesController.CreateNote(invalidRequest);
-
-            // assert response is 400 bad request
-            response.Should().BeOfType(typeof(BadRequestObjectResult));
-        }
-
-        [Fact]
         public async Task CreateNote_WhenValidRequest_Returns201CreatedResponse()
         {
             // create mock note
@@ -154,20 +144,6 @@ namespace DynamoDbNotesApp.Tests.Controllers
         }
 
         [Fact]
-        public async Task UpdateNote_WhenInvalidRequest_ReturnsBadRequest()
-        {
-            // create null updateNoteRequestObject 
-            var invalidRequest = (UpdateNoteRequest) null;
-            var randomId = Guid.NewGuid();
-
-            // call controller method
-            var response = await _notesController.UpdateNote(randomId, invalidRequest);
-
-            // assert response is 400 bad request
-            response.Should().BeOfType(typeof(BadRequestObjectResult));
-        }
-
-        [Fact]
         public async Task UpdateNote_WhenItDoesntExist_ReturnsNotFound()
         {
             // generate random Guid
@@ -183,7 +159,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
             var response = await _notesController.UpdateNote(randomId, requestObject);
 
             // assert response is 404 not found
-            response.Should().BeOfType(typeof(NotFoundObjectResult));
+            response.Should().BeOfType(typeof(NotFoundResult));
         }
 
         [Fact]
@@ -202,7 +178,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
             var response = await _notesController.UpdateNote(randomId, requestObject);
 
             // assert response is 204 no content
-            response.Should().BeOfType(typeof(NoContentResult));
+            response.Should().BeSameAs(null);
         }
 
         [Fact]
@@ -218,7 +194,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
             var response = await _notesController.DeleteNote(randomId);
 
             // assert response is 404 not found
-            response.Should().BeOfType(typeof(NotFoundObjectResult));
+            response.Should().BeOfType(typeof(NotFoundResult));
         }
 
         [Fact]
@@ -234,7 +210,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
             var response = await _notesController.DeleteNote(randomId);
 
             // assert response is 204 no content
-            response.Should().BeOfType(typeof(NoContentResult));
+            response.Should().BeSameAs(null);
         }
     }
 }
