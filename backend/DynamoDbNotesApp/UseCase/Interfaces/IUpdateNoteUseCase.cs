@@ -8,6 +8,6 @@ namespace DynamoDbNotesApp.UseCase.Interfaces
 {
     public interface IUpdateNoteUseCase
     {
-        Task Execute(Guid id, UpdateNoteRequest request);
+        Task<bool> Execute(Guid id, UpdateNoteRequest request);
     }
 }

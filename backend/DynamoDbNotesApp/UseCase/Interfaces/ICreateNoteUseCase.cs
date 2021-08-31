@@ -1,4 +1,5 @@
 ﻿using DynamoDbNotesApp.Boundary.Request;
+using DynamoDbNotesApp.Boundary.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace DynamoDbNotesApp.UseCase.Interfaces
 {
     public interface ICreateNoteUseCase
     {
-        Task Execute(CreateNoteRequest request);
+        Task<NoteCreatedResponseObject> Execute(CreateNoteRequest request);
     }
 }

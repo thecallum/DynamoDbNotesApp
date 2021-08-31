@@ -7,5 +7,10 @@ namespace DynamoDbNotesApp.Boundary.Request
 {
     public class CreateNoteRequest
     {
+        public string Title { get; set; }
+        public string AuthorName { get; set; }
+        public string Contents { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Modified { get; set; }
     }
 }

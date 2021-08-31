@@ -1,5 +1,6 @@
 ﻿using DynamoDbNotesApp.Boundary.Request;
 using DynamoDbNotesApp.Boundary.Response;
+using DynamoDbNotesApp.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,9 +15,29 @@ namespace DynamoDbNotesApp.Controllers
     [Produces("application/json")]
     public class NotesController : ControllerBase
     {
+        private readonly IGetByIdUseCase _getByIdUseCase;
+        private readonly IGetAllUseCase _getAllUseCase;
+        private readonly ICreateNoteUseCase _createNoteUseCase;
+        private readonly IUpdateNoteUseCase _udateNoteUseCase;
+        private readonly IDeleteNoteUseCase _deleteNoteUseCase;
+
+        public NotesController(
+            IGetByIdUseCase getByIdUseCase, 
+            IGetAllUseCase getAllUseCase, 
+            ICreateNoteUseCase createNoteUseCase, 
+            IUpdateNoteUseCase updateNoteUseCase, 
+            IDeleteNoteUseCase deleteNoteUseCase)
+        {
+            _getByIdUseCase = getByIdUseCase;
+            _getAllUseCase = getAllUseCase;
+            _createNoteUseCase = createNoteUseCase;
+            _udateNoteUseCase = updateNoteUseCase;
+            _deleteNoteUseCase = deleteNoteUseCase;
+        }
+
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(typeof(NoteResponseObject), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(NoteResponseObject), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -26,9 +47,7 @@ namespace DynamoDbNotesApp.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<NoteResponseObject>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(List<NoteResponseObject>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll()
         {
@@ -36,7 +55,7 @@ namespace DynamoDbNotesApp.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(NoteCreatedResponseObject), StatusCodes.Status201Created)] // Needs to return Id of created note
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateNote([FromBody] CreateNoteRequest request)

@@ -8,7 +8,7 @@ namespace DynamoDbNotesApp.UseCase
 {
     public class DeleteNoteUseCase : IDeleteNoteUseCase
     {
-        public Task Execute(Guid id)
+        Task<bool> IDeleteNoteUseCase.Execute(Guid id)
         {
             throw new NotImplementedException();
         }

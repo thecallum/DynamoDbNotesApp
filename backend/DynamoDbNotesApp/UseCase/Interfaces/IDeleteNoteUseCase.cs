@@ -7,6 +7,6 @@ namespace DynamoDbNotesApp.UseCase.Interfaces
 {
     public interface IDeleteNoteUseCase
     {
-        Task Execute(Guid id);
+        Task<bool> Execute(Guid id);
     }
 }

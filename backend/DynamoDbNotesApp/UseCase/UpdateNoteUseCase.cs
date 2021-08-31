@@ -9,7 +9,7 @@ namespace DynamoDbNotesApp.UseCase
 {
     public class UpdateNoteUseCase : IUpdateNoteUseCase
     {
-        public Task Execute(Guid id, UpdateNoteRequest request)
+        public Task<bool> Execute(Guid id, UpdateNoteRequest request)
         {
             throw new NotImplementedException();
         }
