@@ -163,7 +163,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
         }
 
         [Fact]
-        public async Task UpdateNote_WhenValidRequest_Returns204NoContent()
+        public async Task UpdateNote_WhenValidRequest_Returns200NoContent()
         {
             // create request object
             var requestObject = _fixture.Create<UpdateNoteRequest>();
@@ -177,8 +177,8 @@ namespace DynamoDbNotesApp.Tests.Controllers
             // call controller method
             var response = await _notesController.UpdateNote(randomId, requestObject);
 
-            // assert response is 204 no content
-            response.Should().BeSameAs(null);
+            // assert response is 200 no content
+            response.Should().BeOfType(typeof(OkResult));
         }
 
         [Fact]
@@ -198,7 +198,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
         }
 
         [Fact]
-        public async Task DeleteNote_WhenValidRequest_Returns204NoContent()
+        public async Task DeleteNote_WhenValidRequest_Returns200NoContent()
         {
             // generate random id
             var randomId = Guid.NewGuid();
@@ -209,8 +209,8 @@ namespace DynamoDbNotesApp.Tests.Controllers
             // call controller method
             var response = await _notesController.DeleteNote(randomId);
 
-            // assert response is 204 no content
-            response.Should().BeSameAs(null);
+            // assert response is 200 no content
+            response.Should().BeOfType(typeof(OkResult));
         }
     }
 }

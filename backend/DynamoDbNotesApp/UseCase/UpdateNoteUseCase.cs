@@ -1,4 +1,5 @@
 ﻿using DynamoDbNotesApp.Boundary.Request;
+using DynamoDbNotesApp.Factories;
 using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase.Interfaces;
 using System;
@@ -17,9 +18,13 @@ namespace DynamoDbNotesApp.UseCase
             _notesGateway = notesGateway;
         }
 
-        public Task<bool> Execute(Guid id, UpdateNoteRequest request)
+        public async Task<bool> Execute(Guid id, UpdateNoteRequest request)
         {
-            throw new NotImplementedException();
+            var note = request.ToDomain(id);
+
+            var response = await _notesGateway.UpdateNote(note);
+
+            return response;
         }
     }
 }

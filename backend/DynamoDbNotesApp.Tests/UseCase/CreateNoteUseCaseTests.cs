@@ -29,7 +29,7 @@ namespace DynamoDbNotesApp.Tests.UseCase
         }
 
         [Fact]
-        public async Task CreateNoteUseCase_WhenCalled_ReturnsId()
+        public async Task CreateNoteUseCase_WhenCalled_ReturnsNoteResponseObject()
         {
             // create mock CreateNoteRequest
             var mockRequest = _fixture.Create<CreateNoteRequest>();
@@ -44,7 +44,7 @@ namespace DynamoDbNotesApp.Tests.UseCase
             var response = await _createNoteUseCase.Execute(mockRequest).ConfigureAwait(false);
 
             // assert response 
-            response.Should().BeSameAs(mockId);
+            response.Id.Should().Be(mockId);
         }
     }
 }

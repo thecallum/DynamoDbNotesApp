@@ -1,5 +1,6 @@
 ﻿using DynamoDbNotesApp.Boundary.Request;
 using DynamoDbNotesApp.Boundary.Response;
+using DynamoDbNotesApp.Factories;
 using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase.Interfaces;
 using System;
@@ -18,9 +19,16 @@ namespace DynamoDbNotesApp.UseCase
             _notesGateway = notesGateway;
         }
 
-        public Task<NoteCreatedResponseObject> Execute(CreateNoteRequest request)
+        public async Task<NoteCreatedResponseObject> Execute(CreateNoteRequest request)
         {
-            throw new NotImplementedException();
+            var note = request.ToDomain();
+
+            var response = await _notesGateway.CreateNote(note).ConfigureAwait(false);
+
+            return new NoteCreatedResponseObject
+            {
+                Id = response
+            };
         }
     }
 }

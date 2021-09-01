@@ -85,7 +85,7 @@ namespace DynamoDbNotesApp.Controllers
 
             if (result == false) return NotFound();
 
-            return NoContentResponse();
+            return Ok();
         }
 
         [HttpDelete]
@@ -100,12 +100,8 @@ namespace DynamoDbNotesApp.Controllers
 
             if (result == false) return NotFound();
 
-            return NoContentResponse();
+            return Ok();
         }
 
-        private IActionResult NoContentResponse()
-        {
-            return null;
-        }
     }
 }

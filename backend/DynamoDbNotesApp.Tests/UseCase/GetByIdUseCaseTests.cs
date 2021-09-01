@@ -2,6 +2,7 @@
 using DynamoDbNotesApp.Boundary.Request;
 using DynamoDbNotesApp.Boundary.Response;
 using DynamoDbNotesApp.Domain;
+using DynamoDbNotesApp.Factories;
 using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase;
 using FluentAssertions;
@@ -60,7 +61,7 @@ namespace DynamoDbNotesApp.Tests.UseCase
             var response = await _getByIdUseCase.Execute(mockId).ConfigureAwait(false);
 
             // assert response is false
-            response.Should().Be(mockNote);
+            response.Should().BeOfType(typeof(NoteResponseObject));
         }
     }
 }

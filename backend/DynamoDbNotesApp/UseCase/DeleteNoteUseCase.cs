@@ -16,9 +16,11 @@ namespace DynamoDbNotesApp.UseCase
             _notesGateway = notesGateway;
         }
 
-        public Task<bool> Execute(Guid id)
+        public async Task<bool> Execute(Guid id)
         {
-            throw new NotImplementedException();
+            var response = await _notesGateway.DeleteNote(id).ConfigureAwait(false);
+
+            return response;
         }
     }
 }

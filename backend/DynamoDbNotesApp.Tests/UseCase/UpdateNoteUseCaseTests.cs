@@ -57,7 +57,7 @@ namespace DynamoDbNotesApp.Tests.UseCase
             var mockId = Guid.NewGuid();
 
             // setup usecase
-            _mockNotesGateway.Setup(x => x.UpdateNote(It.IsAny<Note>())).ReturnsAsync(false);
+            _mockNotesGateway.Setup(x => x.UpdateNote(It.IsAny<Note>())).ReturnsAsync(true);
 
             // call method
             var response = await _updateNoteUseCase.Execute(mockId, mockRequest).ConfigureAwait(true);

@@ -1,4 +1,5 @@
 ﻿using DynamoDbNotesApp.Boundary.Response;
+using DynamoDbNotesApp.Factories;
 using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase.Interfaces;
 using System;
@@ -17,9 +18,11 @@ namespace DynamoDbNotesApp.UseCase
             _notesGateway = notesGateway;
         }
 
-        public Task<List<NoteResponseObject>> Execute()
+        public async Task<List<NoteResponseObject>> Execute()
         {
-            throw new NotImplementedException();
+            var response = await _notesGateway.GetAllNotes().ConfigureAwait(false);
+
+            return response.Select(x => x.ToResponse()).ToList();
         }
     }
 }

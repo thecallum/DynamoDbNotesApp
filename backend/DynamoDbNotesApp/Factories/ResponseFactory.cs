@@ -11,7 +11,15 @@ namespace DynamoDbNotesApp.Factories
     {
         public static NoteResponseObject ToResponse(this Note domain)
         {
-            throw new NotImplementedException();
+            return new NoteResponseObject
+            {
+                Id = domain.Id,
+                Title = domain.Title,
+                AuthorName = domain.AuthorName,
+                Contents = domain.Contents,
+                Created = (DateTime) domain.Created,
+                Modified = (DateTime) domain.Modified
+            };
         }
     }
 }
