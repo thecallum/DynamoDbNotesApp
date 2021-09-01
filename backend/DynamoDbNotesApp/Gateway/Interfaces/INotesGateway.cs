@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using DynamoDbNotesApp.Boundary.Response;
 using DynamoDbNotesApp.Domain;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DynamoDbNotesApp.Gateway.Interfaces
 {
-    interface INotesGateway
+    public interface INotesGateway
     {
         Task<Note> GetNoteById(Guid id);
         Task<List<Note>> GetAllNotes();
-        Task CreateNote(Note note);
-        Task UpdateNote(Note note);
-        Task DeleteNote(Guid id);
+        Task<Guid> CreateNote(Note note);
+        Task<bool> UpdateNote(Note note);
+        Task<bool> DeleteNote(Guid id);
     }
 }

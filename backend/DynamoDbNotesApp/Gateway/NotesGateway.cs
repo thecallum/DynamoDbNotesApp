@@ -1,4 +1,5 @@
-﻿using DynamoDbNotesApp.Domain;
+﻿using DynamoDbNotesApp.Boundary.Response;
+using DynamoDbNotesApp.Domain;
 using DynamoDbNotesApp.Gateway.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,12 @@ namespace DynamoDbNotesApp.Gateway
 {
     public class NotesGateway : INotesGateway
     {
-        public Task CreateNote(Note note)
+        public Task<Guid> CreateNote(Note note)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteNote(Guid id)
+        public Task<bool> DeleteNote(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -29,7 +30,7 @@ namespace DynamoDbNotesApp.Gateway
             throw new NotImplementedException();
         }
 
-        public Task UpdateNote(Note note)
+        public Task<bool> UpdateNote(Note note)
         {
             throw new NotImplementedException();
         }

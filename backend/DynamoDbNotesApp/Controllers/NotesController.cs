@@ -22,10 +22,10 @@ namespace DynamoDbNotesApp.Controllers
         private readonly IDeleteNoteUseCase _deleteNoteUseCase;
 
         public NotesController(
-            IGetByIdUseCase getByIdUseCase, 
-            IGetAllUseCase getAllUseCase, 
-            ICreateNoteUseCase createNoteUseCase, 
-            IUpdateNoteUseCase updateNoteUseCase, 
+            IGetByIdUseCase getByIdUseCase,
+            IGetAllUseCase getAllUseCase,
+            ICreateNoteUseCase createNoteUseCase,
+            IUpdateNoteUseCase updateNoteUseCase,
             IDeleteNoteUseCase deleteNoteUseCase)
         {
             _getByIdUseCase = getByIdUseCase;

@@ -1,4 +1,5 @@
-﻿using DynamoDbNotesApp.UseCase.Interfaces;
+﻿using DynamoDbNotesApp.Gateway.Interfaces;
+using DynamoDbNotesApp.UseCase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,14 @@ namespace DynamoDbNotesApp.UseCase
 {
     public class DeleteNoteUseCase : IDeleteNoteUseCase
     {
-        Task<bool> IDeleteNoteUseCase.Execute(Guid id)
+        private INotesGateway _notesGateway;
+
+        public DeleteNoteUseCase(INotesGateway notesGateway)
+        {
+            _notesGateway = notesGateway;
+        }
+
+        public Task<bool> Execute(Guid id)
         {
             throw new NotImplementedException();
         }

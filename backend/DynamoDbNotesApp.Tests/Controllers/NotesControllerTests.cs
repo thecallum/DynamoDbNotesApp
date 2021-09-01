@@ -28,7 +28,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
 
         public NotesControllerTests()
         {
-    
+
             _mockGetByIdUseCase = new Mock<IGetByIdUseCase>();
             _mockGetAllUseCase = new Mock<IGetAllUseCase>();
             _mockCreateNoteUseCase = new Mock<ICreateNoteUseCase>();
@@ -51,7 +51,7 @@ namespace DynamoDbNotesApp.Tests.Controllers
             var randomId = _fixture.Create<Guid>();
 
             // setup usecase
-            _mockGetByIdUseCase.Setup(x => x.Execute(randomId)).ReturnsAsync((NoteResponseObject) null);
+            _mockGetByIdUseCase.Setup(x => x.Execute(randomId)).ReturnsAsync((NoteResponseObject)null);
 
             // call controller method
             var response = await _notesController.GetById(randomId);
