@@ -44,6 +44,16 @@ namespace DynamoDbNotesApp.Tests.Gateway
             _testFixture = testFixture;
         }
 
+        private async Task SetupTestData(NotesDb note)
+        {
+            await _context.SaveAsync(note).ConfigureAwait(false);
+        }
+
+        public void Dispose()
+        {
+            _testFixture.ResetDatabase().GetAwaiter().GetResult();
+        }
+
         [Fact]
         public async Task CreateNote_WhenCalled_InsertsNoteIntoDatabase()
         {
@@ -193,16 +203,6 @@ namespace DynamoDbNotesApp.Tests.Gateway
             databaseResponse.Title.Should().Be(modifiedNote.Title);
             databaseResponse.Contents.Should().Be(modifiedNote.Contents);
             databaseResponse.AuthorName.Should().Be(modifiedNote.AuthorName);
-        }
-
-        private async Task SetupTestData(NotesDb note)
-        {
-            await _context.SaveAsync(note).ConfigureAwait(false);
-        }
-
-        public void Dispose()
-        {
-            _testFixture.ResetDatabase().GetAwaiter().GetResult();
         }
     }
 }

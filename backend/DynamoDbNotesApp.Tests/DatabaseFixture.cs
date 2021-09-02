@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
+using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,11 @@ using Xunit;
 
 namespace DynamoDbNotesApp.Tests
 {
-    public class DatabaseFixture<TStartup> : IDisposable where TStartup : class
+
+
+
+    public class DatabaseFixture<TStartup> 
+        : WebApplicationFactory<TStartup> where TStartup : class
     {
         // https://xunit.net/docs/shared-context#collection-fixture
 
