@@ -25,6 +25,8 @@ namespace DynamoDbNotesApp.Factories
 
         public static Note ToDomain(this CreateNoteRequest request)
         {
+            if (request == null) return null;
+
             return new Note
             {
                 Id = Guid.NewGuid(),
@@ -36,6 +38,8 @@ namespace DynamoDbNotesApp.Factories
 
         public static Note ToDomain(this UpdateNoteRequest request, Guid id)
         {
+            if (request == null) return null;
+
             return new Note
             {
                 Id = id,

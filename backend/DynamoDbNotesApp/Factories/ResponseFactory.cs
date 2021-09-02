@@ -11,6 +11,8 @@ namespace DynamoDbNotesApp.Factories
     {
         public static NoteResponseObject ToResponse(this Note domain)
         {
+            if (domain == null) return null;
+
             return new NoteResponseObject
             {
                 Id = domain.Id,
