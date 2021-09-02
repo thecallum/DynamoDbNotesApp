@@ -73,7 +73,7 @@ namespace DynamoDbNotesApp.Tests.E2ETests
             var randomId = Guid.NewGuid();
 
             // create null UpdateNoteRequest
-            var invalidUpdateNoteRequest = (UpdateNoteRequest) null;
+            var invalidUpdateNoteRequest = (UpdateNoteRequest)null;
 
             // call controller method
             var response = await UpdateNoteRequest(randomId.ToString(), invalidUpdateNoteRequest);

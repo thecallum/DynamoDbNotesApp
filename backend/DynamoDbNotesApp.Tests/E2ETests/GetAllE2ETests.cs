@@ -74,7 +74,7 @@ namespace DynamoDbNotesApp.Tests.E2ETests
             var mockNotes = _fixture.CreateMany<NotesDb>(numberOfNotes);
 
             // insert notes into database
-            foreach(var mockNote in mockNotes)
+            foreach (var mockNote in mockNotes)
             {
                 await SetupTestData(mockNote);
             }

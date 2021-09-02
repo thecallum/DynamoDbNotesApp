@@ -55,7 +55,7 @@ namespace DynamoDbNotesApp.Tests.E2ETests
         public async Task CreateNote_WhenInvalidRequest_Returns400BadRequest()
         {
             // create null CreateNoteRequest
-            var invalidRequest = (CreateNoteRequest) null;
+            var invalidRequest = (CreateNoteRequest)null;
 
             // call controller method
             var response = await CreateNoteRequest(invalidRequest);

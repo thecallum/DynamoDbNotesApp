@@ -13,7 +13,7 @@ namespace DynamoDbNotesApp.Tests
 
 
 
-    public class DatabaseFixture<TStartup> 
+    public class DatabaseFixture<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class
     {
         // https://xunit.net/docs/shared-context#collection-fixture
