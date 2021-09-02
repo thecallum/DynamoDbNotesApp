@@ -47,15 +47,15 @@ namespace DynamoDbNotesApp.Factories
 
         public static NotesDb ToDatabase(this Note entity)
         {
-             return new NotesDb
-             {
+            return new NotesDb
+            {
                 Id = entity.Id,
                 Title = entity.Title,
                 AuthorName = entity.AuthorName,
                 Contents = entity.Contents,
                 Created = (entity.Created != null) ? (DateTime)entity.Created : DateTime.UtcNow,
                 Modified = (entity.Modified != null) ? (DateTime)entity.Modified : DateTime.UtcNow
-             };
+            };
         }
     }
 }

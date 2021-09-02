@@ -22,7 +22,7 @@ namespace DynamoDbNotesApp.Tests
         {
             // setup database connection
             var clientConfig = new AmazonDynamoDBConfig { ServiceURL = "http://localhost:8000" };
-            DynamoDb =  new AmazonDynamoDBClient(clientConfig);
+            DynamoDb = new AmazonDynamoDBClient(clientConfig);
 
             DynamoDbContext = new DynamoDBContext(DynamoDb);
 
@@ -30,7 +30,8 @@ namespace DynamoDbNotesApp.Tests
             try
             {
                 CreateNotesTableAsync().GetAwaiter().GetResult();
-            } catch(Exception)
+            }
+            catch (Exception)
             {
                 // table exists
             }

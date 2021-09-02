@@ -144,7 +144,7 @@ namespace DynamoDbNotesApp.Tests.Gateway
             var mockNotes = _fixture.CreateMany<NotesDb>(numberOfNotes).ToList();
 
             // insert mock notes into database
-            for (int i=0; i<numberOfNotes; i++)
+            for (int i = 0; i < numberOfNotes; i++)
             {
                 await SetupTestData(mockNotes[i]);
             }

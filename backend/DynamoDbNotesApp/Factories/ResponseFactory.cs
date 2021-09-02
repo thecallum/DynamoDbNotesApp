@@ -17,8 +17,8 @@ namespace DynamoDbNotesApp.Factories
                 Title = domain.Title,
                 AuthorName = domain.AuthorName,
                 Contents = domain.Contents,
-                Created = (DateTime) domain.Created,
-                Modified = (DateTime) domain.Modified
+                Created = (DateTime)domain.Created,
+                Modified = (DateTime)domain.Modified
             };
         }
     }
