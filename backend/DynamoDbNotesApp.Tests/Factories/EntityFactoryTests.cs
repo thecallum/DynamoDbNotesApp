@@ -24,7 +24,7 @@ namespace DynamoDbNotesApp.Tests.Factories
         private readonly Fixture _fixture = new Fixture();
 
         [Fact]
-        public async Task NotesDbToDomain_WhenCalled_ReturnsNote()
+        public void NotesDbToDomain_WhenCalled_ReturnsNote()
         {
             // create mock notesDb
             var mockNotesDb = _fixture.Create<NotesDb>();
@@ -42,10 +42,10 @@ namespace DynamoDbNotesApp.Tests.Factories
         }
 
         [Fact]
-        public async Task CreateNoteRequestToDomain_WhenNull_ReturnsNull()
+        public void CreateNoteRequestToDomain_WhenNull_ReturnsNull()
         {
             // create null createnoterequest
-            var nullRequest = (CreateNoteRequest) null;
+            var nullRequest = (CreateNoteRequest)null;
 
             // call method
             var response = nullRequest.ToDomain();
@@ -55,7 +55,7 @@ namespace DynamoDbNotesApp.Tests.Factories
         }
 
         [Fact]
-        public async Task CreateNoteRequestToDomain_WhenCalled_ReturnsNote()
+        public void CreateNoteRequestToDomain_WhenCalled_ReturnsNote()
         {
             // create mock createnoterequest
             var mockCreateNoteRequest = _fixture.Create<CreateNoteRequest>();
@@ -71,10 +71,10 @@ namespace DynamoDbNotesApp.Tests.Factories
         }
 
         [Fact]
-        public async Task UpdateNoteRequestToDomain_WhenNull_ReturnsNull()
+        public void UpdateNoteRequestToDomain_WhenNull_ReturnsNull()
         {
             // create null updatenoterequest
-            var nullRequest = (UpdateNoteRequest) null;
+            var nullRequest = (UpdateNoteRequest)null;
 
             // create random id
             var randomId = Guid.NewGuid();
@@ -87,7 +87,7 @@ namespace DynamoDbNotesApp.Tests.Factories
         }
 
         [Fact]
-        public async Task UpdateNoteRequestToDomain_WhenCalled_ReturnsNote()
+        public void UpdateNoteRequestToDomain_WhenCalled_ReturnsNote()
         {
             // create mock udpdatenoterequest
             var mockRequest = _fixture.Create<UpdateNoteRequest>();
@@ -107,7 +107,7 @@ namespace DynamoDbNotesApp.Tests.Factories
         }
 
         [Fact]
-        public async Task NoteToDatabase_WhenCalled_ReturnsNote()
+        public void NoteToDatabase_WhenCalled_ReturnsNote()
         {
             // create mock note
             var mockNote = _fixture.Create<Note>();
@@ -124,12 +124,12 @@ namespace DynamoDbNotesApp.Tests.Factories
         }
 
         [Fact]
-        public async Task NoteToDatabase_WhenCreatedAndModifiedDatesAreNull_SetsNewDate()
+        public void NoteToDatabase_WhenCreatedAndModifiedDatesAreNull_SetsNewDate()
         {
             // create mock note with null created and modified dates
             var mockNote = _fixture.Build<Note>()
-                .With(x => x.Created, (DateTime?) null)
-                .With(x => x.Modified, (DateTime?) null)
+                .With(x => x.Created, (DateTime?)null)
+                .With(x => x.Modified, (DateTime?)null)
                 .Create();
 
             // call method
@@ -141,7 +141,7 @@ namespace DynamoDbNotesApp.Tests.Factories
         }
 
         [Fact]
-        public async Task NoteToDatabase_WhenCreatedAndModifiedDatesAreSet_KeepsDates()
+        public void NoteToDatabase_WhenCreatedAndModifiedDatesAreSet_KeepsDates()
         {
             // create mock date with created and modified dates
             var mockNote = _fixture.Create<Note>();
