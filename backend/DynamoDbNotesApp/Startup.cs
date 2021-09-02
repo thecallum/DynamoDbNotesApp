@@ -84,11 +84,25 @@ namespace DynamoDbNotesApp
 
         private async Task ConfigureDynamoDbAsync(IServiceCollection services)
         {
-            services.AddSingleton<IAmazonDynamoDB>(sp =>
+
+            bool localMode = false;
+            _ = bool.TryParse(Environment.GetEnvironmentVariable("DynamoDb_LocalMode"), out localMode);
+
+            if (localMode)
             {
-                var clientConfig = new AmazonDynamoDBConfig { ServiceURL = "http://localhost:8000" };
-                return new AmazonDynamoDBClient(clientConfig);
-            });
+                services.AddSingleton<IAmazonDynamoDB>(sp =>
+                {
+                    var clientConfig = new AmazonDynamoDBConfig { ServiceURL = "http://localhost:8000" };
+                    return new AmazonDynamoDBClient(clientConfig);
+                });
+            }
+            else
+            {
+
+
+                services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+                services.AddAWSService<IAmazonDynamoDB>();
+            }          
 
             services.AddScoped<IDynamoDBContext>(sp =>
             {
