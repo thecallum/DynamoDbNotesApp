@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.Model;
+using DynamoDbNotesApp.Gateway;
+using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase;
 using DynamoDbNotesApp.UseCase.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +36,9 @@ namespace DynamoDbNotesApp
             services.AddControllers();
 
             RegisterUseCases(services);
+            RegisterGateways(services);
+
+            ConfigureDynamoDbAsync(services).GetAwaiter().GetResult();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -55,6 +63,8 @@ namespace DynamoDbNotesApp
                     await context.Response.WriteAsync("Welcome to running ASP.NET Core on AWS Lambda");
                 });
             });
+
+
         }
 
         private void RegisterUseCases(IServiceCollection services)
@@ -66,5 +76,25 @@ namespace DynamoDbNotesApp
             services.AddScoped<IDeleteNoteUseCase, DeleteNoteUseCase>();
         }
 
+        private void RegisterGateways(IServiceCollection services)
+        {
+            services.AddScoped<INotesGateway, NotesGateway>();
+        }
+
+
+        private async Task ConfigureDynamoDbAsync(IServiceCollection services)
+        {
+            services.AddSingleton<IAmazonDynamoDB>(sp =>
+            {
+                var clientConfig = new AmazonDynamoDBConfig { ServiceURL = "http://localhost:8000" };
+                return new AmazonDynamoDBClient(clientConfig);
+            });
+
+            services.AddScoped<IDynamoDBContext>(sp =>
+            {
+                var db = sp.GetService<IAmazonDynamoDB>();
+                return new DynamoDBContext(db);
+            });
+        }
     }
 }
