@@ -1,4 +1,5 @@
-﻿using DynamoDbNotesApp.Boundary.Request;
+﻿using Amazon.Lambda.Core;
+using DynamoDbNotesApp.Boundary.Request;
 using DynamoDbNotesApp.Factories;
 using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase.Interfaces;
@@ -20,6 +21,8 @@ namespace DynamoDbNotesApp.UseCase
 
         public async Task<bool> Execute(Guid id, UpdateNoteRequest request)
         {
+            LambdaLogger.Log("Calling UpdateNoteUseCase");
+
             var note = request.ToDomain(id);
 
             var response = await _notesGateway.UpdateNote(note);

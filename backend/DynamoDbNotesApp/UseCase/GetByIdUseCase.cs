@@ -1,4 +1,5 @@
-﻿using DynamoDbNotesApp.Boundary.Response;
+﻿using Amazon.Lambda.Core;
+using DynamoDbNotesApp.Boundary.Response;
 using DynamoDbNotesApp.Factories;
 using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase.Interfaces;
@@ -20,6 +21,8 @@ namespace DynamoDbNotesApp.UseCase
 
         public async Task<NoteResponseObject> Execute(Guid id)
         {
+            LambdaLogger.Log("Calling GetByIdUseCase");
+
             var response = await _notesGateway.GetNoteById(id).ConfigureAwait(false);
 
             return response?.ToResponse();

@@ -1,4 +1,5 @@
-﻿using DynamoDbNotesApp.Boundary.Request;
+﻿using Amazon.Lambda.Core;
+using DynamoDbNotesApp.Boundary.Request;
 using DynamoDbNotesApp.Boundary.Response;
 using DynamoDbNotesApp.Factories;
 using DynamoDbNotesApp.Gateway.Interfaces;
@@ -21,6 +22,8 @@ namespace DynamoDbNotesApp.UseCase
 
         public async Task<NoteCreatedResponseObject> Execute(CreateNoteRequest request)
         {
+            LambdaLogger.Log("Calling CreateNoteUseCase");
+
             var note = request.ToDomain();
 
             var response = await _notesGateway.CreateNote(note).ConfigureAwait(false);

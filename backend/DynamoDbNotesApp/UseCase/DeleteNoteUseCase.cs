@@ -1,4 +1,5 @@
-﻿using DynamoDbNotesApp.Gateway.Interfaces;
+﻿using Amazon.Lambda.Core;
+using DynamoDbNotesApp.Gateway.Interfaces;
 using DynamoDbNotesApp.UseCase.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace DynamoDbNotesApp.UseCase
 
         public async Task<bool> Execute(Guid id)
         {
+            LambdaLogger.Log("Calling DeleteNoteUseCase");
+
             var response = await _notesGateway.DeleteNote(id).ConfigureAwait(false);
 
             return response;
