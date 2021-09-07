@@ -1,70 +1,79 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import { getAllNotes } from "../gateway/notes";
-import { Link } from 'gatsby'
-import Loading from '../components/loading'
-
+import { Link } from "gatsby";
+import Loading from "../components/loading";
 
 const Note = ({ note }) => {
-    return (
-        <li>
-            <Link to={`/app/notes/${note.id}`}>{note.title}</Link>
-
-        </li>
-    )
-}
+  return (
+    <tr>
+      <td>
+        <Link to={`/app/notes/${note.id}`}>{note.title}</Link>
+      </td>
+      <td>{note.authorName}</td>
+    </tr>
+  );
+};
 
 const Dashboard = () => {
-    const [notes, setNotes] = useState([])
-    const [loading, setLoading] = useState(true)
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    getAllNotes().then((notes) => {
+      console.log({ notes });
+      setNotes(notes);
+      setLoading(false);
+    });
+  }, []);
 
-    useEffect(() => {
-        // Update the document title using the browser API
-        // alert("useaffect")
+  if (loading) return <Loading />;
 
-        getAllNotes()
-            .then(notes => {
-                console.log({ notes })
-                setNotes(notes)
-                setLoading(false)
-
-            })
-    }, []);
-
-    if (loading) return <Loading />
-
-
-    if (notes === null || notes.length === 0) {
-        return (
-            <div>
-                <p>Notes Couldnt be found!</p>
-
-
-                <Link to="/app/notes/create/">Create Note</Link>
-            </div>
-
-        )
-    }
-
-
+  if (notes === null || notes.length === 0) {
     return (
-        <div>
-            <h1>Dashboard</h1>
+      <div>
+        <p>Notes Couldnt be found!</p>
 
+        <Link to="/app/notes/create/">Create Note</Link>
+      </div>
+    );
+  }
 
-            <h2>Notes</h2>
-            <ul>
-                {notes.map((note, index) => {
-                    return (
-                        <Note note={note} key={index} />
-                    )
-                })}
-            </ul>
+  return (
+    <div>
+      <div className="jumbotron mt-4">
+        <h1 class="display-4">Dashboard</h1>
+        <p class="lead">
+          This is a simple hero unit, a simple jumbotron-style component for
+          calling extra attention to featured content or information.
+        </p>
+        <hr class="my-4" />
+        <p class="lead">
+          <Link
+            class="btn btn-primary btn-lg"
+            to="/app/notes/create/"
+            role="btton"
+          >
+            Create Note
+          </Link>
+        </p>
+      </div>
 
-            <Link to="/app/notes/create/">Create Note</Link>
-
-        </div>
-    )
-}
+      <h2>Notes</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Note Title</th>
+            <th scope="col">Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          {notes.map((note, index) => {
+            return <Note note={note} key={index} />;
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default Dashboard;

@@ -1,144 +1,146 @@
-import React, { useEffect, useState } from "react"
-import Loading from '../components/loading'
+import React, { useEffect, useState } from "react";
+import Loading from "../components/loading";
 import { getNoteById, updateNote } from "../gateway/notes";
-import { navigate } from "@reach/router"
-import { Link } from 'gatsby'
+import { navigate } from "@reach/router";
+import { Link } from "gatsby";
 
-import * as Validator from 'validatorjs';
+import * as Validator from "validatorjs";
 
+import TextField from "../forms/fields/textField";
+import TextAreaField from "../forms/fields/textAreaField";
+
+import LoadingSubmitButton from "../components/loadingSubmitButton";
+import updateNoteValidator from "../forms/validation/updateNoteValidator";
 
 const UpdateNote = ({ noteId }) => {
-    const [note, setNote] = useState(null)
-    const [loading, setLoading] = useState(true)
+  const [note, setNote] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [updateNoteLoading, setUpdateNoteLoading] = useState(false);
 
-    const [title, setTitle] = useState("")
-    const [authorName, setAuthorName] = useState("")
-    const [contents, setContents] = useState("")
+  const [title, setTitle] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [contents, setContents] = useState("");
 
-    const [titleError, setTitleError] = useState(null)
-    const [authorNameError, setAuthorNameError] = useState(null)
-    const [contentsError, setContentsError] = useState(null)
+  const [titleError, setTitleError] = useState(null);
+  const [authorNameError, setAuthorNameError] = useState(null);
+  const [contentsError, setContentsError] = useState(null);
 
-    const handleSubmit = e => {
-        e.preventDefault();
+  const [formHasBeenSubmitted, setFormHasBeenSubmitted] = useState(false);
 
-        const validator = createValidator();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        if (validator.fails()) {
-            setTitleError(validator.errors.first("title"))
-            setAuthorNameError(validator.errors.first("authorName"))
-            setContentsError(validator.errors.first("contents"))
+    if (updateNoteLoading) return;
 
-            return
+    setFormHasBeenSubmitted(true);
+
+    const validator = updateNoteValidator({ title, authorName, contents });
+
+    if (validator.fails()) {
+      setTitleError(validator.errors.first("title"));
+      setAuthorNameError(validator.errors.first("authorName"));
+      setContentsError(validator.errors.first("contents"));
+
+      return;
+    }
+
+    setTitleError(null);
+    setAuthorNameError(null);
+    setContentsError(null);
+
+    sendRequest();
+  };
+
+  const sendRequest = () => {
+    setUpdateNoteLoading(true);
+
+    const newNote = {
+      title,
+      authorName,
+      contents,
+    };
+    console.log("sending request");
+
+    updateNote(note.id, newNote)
+      .then((res) => {
+        console.log({ res });
+
+        setUpdateNoteLoading(false);
+
+        if (res === null) {
+          alert("Error updating note");
+          return;
         }
 
-        setTitleError(null)
-        setAuthorNameError(null)
-        setContentsError(null)
+        navigate(`/app/notes/${note.id}`);
+      })
+      .catch(() => {
+        setUpdateNoteLoading(false);
+      });
+  };
 
+  useEffect(() => {
+    getNoteById(noteId).then((note) => {
+      setNote(note);
 
-        sendRequest()
-    }
+      setTitle(note.title);
+      setAuthorName(note.authorName);
+      setContents(note.contents);
 
-    const sendRequest = () => {
-        const newNote = {
-            title, authorName, contents
-        }
-        console.log("sending request")
+      setLoading(false);
+    });
+  }, []);
 
+  if (loading) return <Loading />;
 
-        updateNote(note.id, newNote)
-            .then(res => {
-                console.log({ res })
-
-                if (res === null) {
-                    alert("Error updating note")
-                    return
-                }
-
-                navigate(`/app/notes/${note.id}`)
-
-            })
-    }
-
-    const createValidator = () => {
-        let data = {
-            title,
-            authorName,
-            contents
-        };
-
-        let rules = {
-            title: 'required|min:3|max:50',
-            authorName: 'required|min:3|max:50',
-            contents: 'required|max:1000'
-        };
-
-        return new Validator(data, rules);
-    }
-
-    useEffect(() => {
-        getNoteById(noteId)
-            .then(note => {
-                setNote(note)
-
-                setTitle(note.title)
-                setAuthorName(note.authorName)
-                setContents(note.contents)
-
-                setLoading(false)
-            })
-    }, []);
-
-    if (loading) return <Loading />
-
-    if (note === null) {
-        return (
-            <div>
-                <p>Note Couldnt be found!</p>
-            </div>
-
-        )
-    }
-
-
-
+  if (note === null) {
     return (
-        <div>
-            <h1>Update Note</h1>
+      <div>
+        <p>Note Couldnt be found!</p>
+      </div>
+    );
+  }
 
-            <form onSubmit={handleSubmit}>
+  return (
+    <div>
+      <h1>Update Note</h1>
 
-                <div>
-                    <label>
-                        Title
-                        <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
-                        {!!titleError && <p style={{ color: "red" }}>{titleError}</p>}
-                    </label>
-                </div>
-
-                <div>
-                    <label>
-                        Author Name
-                        <input type="text" value={authorName} onChange={e => setAuthorName(e.target.value)} />
-                        {!!authorNameError && <p style={{ color: "red" }}>{authorNameError}</p>}
-                    </label>
-                </div>
-
-                <div>
-                    <label>
-                        Contents
-                        <textarea value={contents} onChange={e => setContents(e.target.value)} />
-                        {!!contentsError && <p style={{ color: "red" }}>{contentsError}</p>}
-                    </label>
-                </div>
-
-                <button type="submit">Update</button>
-
-            </form>
+      <form onSubmit={handleSubmit}>
+        <div class="form-group">
+          <TextField
+            label="Note Title"
+            placeholder="Name of the note"
+            errorMessage={titleError}
+            value={title}
+            onChange={setTitle}
+          />
         </div>
-    )
-}
 
+        <div class="form-group">
+          <TextField
+            label="Author"
+            placeholder="Author of the note"
+            errorMessage={authorNameError}
+            value={authorName}
+            onChange={setAuthorName}
+          />
+        </div>
 
-export default UpdateNote
+        <div class="form-group">
+          <TextAreaField
+            label="Contents"
+            errorMessage={contentsError}
+            value={contents}
+            onChange={setContents}
+          />
+        </div>
+
+        <div class="form-group">
+          <LoadingSubmitButton text="Update Note" loading={updateNoteLoading} />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default UpdateNote;

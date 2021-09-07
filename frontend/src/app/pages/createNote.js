@@ -1,112 +1,122 @@
-import React, { useState } from 'react'
-import * as Validator from 'validatorjs';
-import { createNote } from '../gateway/notes'
-import { navigate } from "@reach/router"
+import React, { useState } from "react";
+import * as Validator from "validatorjs";
+import { createNote } from "../gateway/notes";
+import { navigate } from "@reach/router";
 
+import LoadingSubmitButton from "../components/loadingSubmitButton";
+import createNoteValidator from "../forms/validation/createNoteValidator";
+
+import TextField from "../forms/fields/textField";
+import TextAreaField from "../forms/fields/textAreaField";
 
 const CreateNote = () => {
-    const [title, setTitle] = useState("")
-    const [authorName, setAuthorName] = useState("")
-    const [contents, setContents] = useState("")
+  const [title, setTitle] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [contents, setContents] = useState("");
 
-    const [titleError, setTitleError] = useState(null)
-    const [authorNameError, setAuthorNameError] = useState(null)
-    const [contentsError, setContentsError] = useState(null)
+  const [titleError, setTitleError] = useState(null);
+  const [authorNameError, setAuthorNameError] = useState(null);
+  const [contentsError, setContentsError] = useState(null);
 
-    const handleSubmit = e => {
-        e.preventDefault();
+  const [createNoteLoading, setCreateNoteLoading] = useState(false);
 
-        const validator = createValidator();
+  const [formHasBeenSubmitted, setFormHasBeenSubmitted] = useState(false);
 
-        if (validator.fails()) {
-            setTitleError(validator.errors.first("title"))
-            setAuthorNameError(validator.errors.first("authorName"))
-            setContentsError(validator.errors.first("contents"))
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-            return
+    if (createNoteLoading) return;
+
+    setFormHasBeenSubmitted(true);
+
+    const validator = createNoteValidator({ title, authorName, contents });
+
+    if (validator.fails()) {
+      setTitleError(validator.errors.first("title"));
+      setAuthorNameError(validator.errors.first("authorName"));
+      setContentsError(validator.errors.first("contents"));
+
+      return;
+    }
+
+    setTitleError(null);
+    setAuthorNameError(null);
+    setContentsError(null);
+
+    sendRequest();
+  };
+
+  const sendRequest = () => {
+    setCreateNoteLoading(true);
+
+    const newNote = {
+      title,
+      authorName,
+      contents,
+    };
+    console.log("sending request");
+
+    createNote(newNote)
+      .then((res) => {
+        console.log({ res });
+
+        setCreateNoteLoading(false);
+
+        if (res === null) {
+          alert("Error creating note");
+          return;
         }
 
-        setTitleError(null)
-        setAuthorNameError(null)
-        setContentsError(null)
+        navigate(`/app/notes/${res.id}`);
+      })
+      .catch(() => {
+        setCreateNoteLoading(false);
+      });
+  };
 
+  return (
+    <div>
+      <h1>Create Note</h1>
 
-        sendRequest()
-    }
-
-    const sendRequest = () => {
-        const newNote = {
-            title, authorName, contents
-        }
-        console.log("sending request")
-
-
-        createNote(newNote)
-            .then(res => {
-                console.log({ res })
-
-                if (res === null) {
-                    alert("Error creating note")
-                    return
-                }
-
-                navigate(`/app/notes/${res.id}`)
-
-            })
-    }
-
-    const createValidator = () => {
-        let data = {
-            title,
-            authorName,
-            contents
-        };
-
-        let rules = {
-            title: 'required|min:3|max:50',
-            authorName: 'required|min:3|max:50',
-            contents: 'required|max:1000'
-        };
-
-        return new Validator(data, rules);
-    }
-
-    return (
-        <div>
-            <h1>Create Note</h1>
-
-            <form onSubmit={handleSubmit}>
-
-                <div>
-                    <label>
-                        Title
-                        <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
-                        {!!titleError && <p style={{ color: "red" }}>{titleError}</p>}
-                    </label>
-                </div>
-
-                <div>
-                    <label>
-                        Author Name
-                        <input type="text" value={authorName} onChange={e => setAuthorName(e.target.value)} />
-                        {!!authorNameError && <p style={{ color: "red" }}>{authorNameError}</p>}
-                    </label>
-                </div>
-
-                <div>
-                    <label>
-                        Contents
-                        <textarea value={contents} onChange={e => setContents(e.target.value)} />
-                        {!!contentsError && <p style={{ color: "red" }}>{contentsError}</p>}
-                    </label>
-                </div>
-
-                <button type="submit">Submit</button>
-
-            </form>
+      <form onSubmit={handleSubmit}>
+        <div class="form-group">
+          <TextField
+            label="Note Title"
+            placeholder="Name of the note"
+            errorMessage={titleError}
+            value={title}
+            onChange={setTitle}
+            formHasBeenSubmitted={formHasBeenSubmitted}
+          />
         </div>
-    )
-}
 
+        <div class="form-group">
+          <TextField
+            label="Author"
+            placeholder="Author of the note"
+            errorMessage={authorNameError}
+            value={authorName}
+            onChange={setAuthorName}
+            formHasBeenSubmitted={formHasBeenSubmitted}
+          />
+        </div>
 
-export default CreateNote
+        <div class="form-group">
+          <TextAreaField
+            label="Contents"
+            errorMessage={contentsError}
+            value={contents}
+            onChange={setContents}
+            formHasBeenSubmitted={formHasBeenSubmitted}
+          />
+        </div>
+
+        <div class="form-group">
+          <LoadingSubmitButton text="Create Note" loading={createNoteLoading} />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default CreateNote;
