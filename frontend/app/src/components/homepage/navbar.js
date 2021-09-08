@@ -1,12 +1,4 @@
 import * as React from "react";
-import { Link } from "gatsby";
-
-const links = [
-  {
-    name: "Dashboard",
-    url: "/app/",
-  },
-];
 
 const Navbar = () => {
   return (
@@ -25,15 +17,7 @@ const Navbar = () => {
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <ul class="navbar-nav">
-          {links.map((link, index) => (
-            <Link key={index} className="nav-item nav-link" to={link.url}>
-              {link.name}
-            </Link>
-          ))}
-        </ul>
-      </div>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
     </nav>
   );
 };

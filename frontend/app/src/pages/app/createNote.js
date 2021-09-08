@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 // import * as Validator from "validatorjs";
-import { createNote } from "../../app/gateway/notes";
+import { createNote } from "@Gateway/notes";
 import { navigate } from "@reach/router";
 
-import LoadingSubmitButton from "../../app/components/loadingSubmitButton";
-import createNoteValidator from "../../app/forms/validation/createNoteValidator";
+import LoadingSubmitButton from "@Components/loadingSubmitButton";
+import createNoteValidator from "@Forms/validation/createNoteValidator";
 
-import TextField from "../../app/forms/fields/textField";
-import TextAreaField from "../../app/forms/fields/textAreaField";
+import TextField from "@Forms/fields/textField";
+import TextAreaField from "@Forms/fields/textAreaField";
 
 const CreateNote = () => {
   const [title, setTitle] = useState("");

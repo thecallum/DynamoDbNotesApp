@@ -7,7 +7,7 @@ import ViewNote from "../pages/app/viewNote";
 import CreateNote from "../pages/app/createNote";
 import UpdateNote from "../pages/app/updateNote";
 
-import Layout from "../app/components/layout";
+import Layout from "@Components/layout";
 
 const AppRoutes = ({ children }) => {
   return (

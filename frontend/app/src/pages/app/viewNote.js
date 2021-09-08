@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { navigate, Link } from "@reach/router";
-import { getNoteById, deleteNote } from "../../app/gateway/notes";
+import { getNoteById, deleteNote } from "@Gateway/notes";
 import ReactTimeAgo from "react-time-ago";
-import Loading from "../../app/components/loading";
+import Loading from "@Components/loading";
 
 import TimeAgo from "javascript-time-ago";
 

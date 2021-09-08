@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Loading from "../../app/components/loading";
-import { getNoteById, updateNote } from "../../app/gateway/notes";
+import Loading from "@Components/loading";
+import { getNoteById, updateNote } from "@Gateway/notes";
 import { navigate, Link } from "@reach/router";
 
-import TextField from "../../app/forms/fields/textField";
-import TextAreaField from "../../app/forms/fields/textAreaField";
+import TextField from "@Forms/fields/textField";
+import TextAreaField from "@Forms/fields/textAreaField";
 
-import LoadingSubmitButton from "../../app/components/loadingSubmitButton";
-import updateNoteValidator from "../../app/forms/validation/updateNoteValidator";
+import LoadingSubmitButton from "@Components/loadingSubmitButton";
+import updateNoteValidator from "@Forms/validation/updateNoteValidator";
 
 const UpdateNote = ({ noteId }) => {
   const [note, setNote] = useState(null);

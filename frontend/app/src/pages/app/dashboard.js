@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getAllNotes } from "../../app/gateway/notes";
+import { getAllNotes } from "@Gateway/notes";
 import { Link } from "@reach/router";
-import Loading from "../../app/components/loading";
+import Loading from "@Components/loading";
 
 const Note = ({ note }) => {
   return (

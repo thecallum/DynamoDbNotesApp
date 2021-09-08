@@ -1,8 +1,7 @@
 import * as React from "react";
-import { Link } from "@reach/router";
 
-import Layout from "../app/components/homepage/layout";
-import HomepageModal from "../app/components/homepage/homepageModal";
+import Layout from "@Components/homepage/layout";
+import HomepageModal from "@Components/homepage/homepageModal";
 
 // markup
 const HomePage = () => {

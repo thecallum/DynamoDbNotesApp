@@ -1,1 +1,0 @@
-export const NOTES_ENDPOINT = `https://bn9l2jqpgl.execute-api.eu-west-1.amazonaws.com/api/notes/`;
