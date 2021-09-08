@@ -9,5 +9,12 @@ module.exports = {
       options: { prefixes: [`/app/*`] },
     },
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-plugin-s3`,
+      options: {
+        bucketName: "notes-app.com",
+        acl: null,
+      },
+    },
   ],
 };
